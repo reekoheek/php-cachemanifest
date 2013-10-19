@@ -1,0 +1,22 @@
+{
+    "name": "reekoheek/php-cachemanifest",
+    "description": "PHP Auto generate cache manifest",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jafar Shadiq",
+            "email": "reekoheek@gmail.com"
+        }
+    ],
+    "require": {
+
+    },
+    "bin": [
+        "bin/cachemanifest"
+    ],
+    "autoload": {
+        "psr-0": {
+            "CacheManifest": "src/"
+        }
+    }
+}

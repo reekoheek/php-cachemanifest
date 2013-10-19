@@ -1,0 +1,61 @@
+#!/usr/bin/env php
+<?php
+
+function getLibDir() {
+	if (is_readable('./vendor/reekoheek/php-cachemanifest')) {
+		return './vendor/reekoheek/php-cachemanifest';
+	}
+	return './';
+}
+
+function copyFile($path) {
+	$content = file_get_contents(getLibDir().'/'.$path);
+	file_put_contents($path, $content);
+}
+
+function removeFile($path) {
+	if (is_readable($path)) {
+		unlink($path);
+	}
+}
+
+$program = $_SERVER['argv'][0];
+$command = (isset($_SERVER['argv'][1])) ? $_SERVER['argv'][1] : '';
+
+if (!is_readable('composer.json')) {
+	$command = 'help';
+}
+
+switch ($command) {
+	case 'install':
+		$dir = 'www';
+		if (!file_exists($dir)) {
+			mkdir($dir, 0777, true);
+		}
+		copyFile('www/cache.manifest');
+		copyFile('www/cache.manifest.php');
+		break;
+	case 'uninstall':
+		removeFile('www/cache.manifest');
+		removeFile('www/cache.manifest.php');
+		break;
+	default:
+		echo "
+Install and uninstall cache manifest for your web application. Run this 
+program from your project directory (directory with composer.json)
+
+Usage: 
+
+    $program [command]
+
+
+Command:
+
+    install    Install cachemanifest
+    uninstall  Uninstall cachemanifest
+    help       What you looking at right now
+
+		";
+		break;
+}
+echo "\n";
